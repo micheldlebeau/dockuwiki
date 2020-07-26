@@ -54,7 +54,6 @@ fi
 # echo "YOUR WIKI'S SSH PUBLIC KEY (ADD THIS TO YOUR GIT SERVER / HOSTING SERVICE):"
 # cat $SSH_DIRECTORY/id_rsa.pub
 # echo ""
-ls -al $SSH_DIRECTORY/id_rsa.pub
 
 if [ ! -d "$REPO_PATH" ]; then
 	mkdir $REPO_PATH
