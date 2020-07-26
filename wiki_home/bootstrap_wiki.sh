@@ -18,14 +18,17 @@ SSH_PORT=${SSH_PORT:=22}
 # need to check if .ssh dir exists. if not, create it and a key
 if [ ! -d "$SSH_DIRECTORY" ]; then
 	# Control will enter here if $DIRECTORY doesn't exist.
-	echo ".ssh does not exist. creating it and a key"
+	echo ".ssh does not exist. creating it"
 	mkdir $SSH_DIRECTORY
-	# ssh-keygen -t rsa -N "" -f $SSH_DIRECTORY/id_rsa
 	
-	# Download private key
-	gcloud beta secrets versions access latest --secret github-private-key > $SSH_DIRECTORY/id_rsa
-	chmod 600 $SSH_DIRECTORY/id_rsa
-
+	if [ -z ${PRIVATE_KEY+x} ]; then 
+		echo "Creating new keypair"
+		ssh-keygen -t rsa -N "" -f $SSH_DIRECTORY/id_rsa
+	else 
+		echo "Installing private key"
+		cat $PRIVATE_KEY > $SSH_DIRECTORY/id_rsa
+		chmod 600 $SSH_DIRECTORY/id_rsa
+	fi
 
 	# pulling in public key of git server
 	while true
