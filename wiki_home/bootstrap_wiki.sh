@@ -20,7 +20,12 @@ if [ ! -d "$SSH_DIRECTORY" ]; then
 	# Control will enter here if $DIRECTORY doesn't exist.
 	echo ".ssh does not exist. creating it and a key"
 	mkdir $SSH_DIRECTORY
-	ssh-keygen -t rsa -N "" -f $SSH_DIRECTORY/id_rsa
+	# ssh-keygen -t rsa -N "" -f $SSH_DIRECTORY/id_rsa
+	
+	# Download private key
+	gcloud beta secrets versions access latest --secret github-private-key > $SSH_DIRECTORY/id_rsa
+	chmod 600 $SSH_DIRECTORY/id_rsa
+
 
 	# pulling in public key of git server
 	while true
@@ -42,18 +47,19 @@ if [ ! -d "$SSH_DIRECTORY" ]; then
 fi
 
 # print the wiki's public key
-echo ""
-echo "YOUR WIKI'S SSH PUBLIC KEY (ADD THIS TO YOUR GIT SERVER / HOSTING SERVICE):"
-cat $SSH_DIRECTORY/id_rsa.pub
-echo ""
+# echo ""
+# echo "YOUR WIKI'S SSH PUBLIC KEY (ADD THIS TO YOUR GIT SERVER / HOSTING SERVICE):"
+# cat $SSH_DIRECTORY/id_rsa.pub
+# echo ""
+ls -al $SSH_DIRECTORY/id_rsa.pub
 
 if [ ! -d "$REPO_PATH" ]; then
 	mkdir $REPO_PATH
 fi
 cd $REPO_PATH
 
-echo "Script sleeping for 10s before attempt to sync with git..."
-sleep 10
+# echo "Script sleeping for 10s before attempt to sync with git..."
+# sleep 10
 echo ""
 
 set_perms () {
