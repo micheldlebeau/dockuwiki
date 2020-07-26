@@ -10,7 +10,7 @@ cd /home/wiki
 while true
 do
 	echo "Backup script running. Sleeping for 1 hour..."
-	sleep 3600
+	sleep 600
 
 	./backup_once.sh
 done
