@@ -26,7 +26,7 @@ if [ ! -d "$SSH_DIRECTORY" ]; then
 		ssh-keygen -t rsa -N "" -f $SSH_DIRECTORY/id_rsa
 	else 
 		echo "Installing private key"
-		echo "$PRIVATE_KEY" > $SSH_DIRECTORY/id_rsa
+		echo "$PRIVATE_KEY" | base64 -d > $SSH_DIRECTORY/id_rsa
 		chmod 600 $SSH_DIRECTORY/id_rsa
 	fi
 
